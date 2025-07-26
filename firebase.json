@@ -1,10 +1,20 @@
 {
   "hosting": {
-    "public": "HTML TUTORIAL/money-manager/",
+    "public": ".",
     "ignore": [
       "firebase.json",
       "**/.*",
       "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "/nested.html",
+        "destination": "/nested.html"
+      },
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
     ]
   }
 }
