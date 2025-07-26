@@ -1,4 +1,43 @@
 // scriptIndex.js
+
+const auth = window.firebaseAuth;
+const db = window.firebaseDb;
+const provider = new window.GoogleAuthProvider();
+
+const loginBtn = document.getElementById("loginBtn");
+const logoutBtn = document.getElementById("logoutBtn");
+const userEmail = document.getElementById("userEmail");
+
+loginBtn.addEventListener("click", () => {
+  window.signInWithPopup(auth, provider)
+    .then((result) => {
+      const user = result.user;
+      userEmail.textContent = `Logged in as: ${user.email}`;
+      loginBtn.style.display = "none";
+      logoutBtn.style.display = "inline-block";
+    });
+});
+
+logoutBtn.addEventListener("click", () => {
+  window.signOutFirebase(auth).then(() => {
+    userEmail.textContent = "";
+    loginBtn.style.display = "inline-block";
+    logoutBtn.style.display = "none";
+  });
+});
+
+window.onAuthStateChanged(auth, (user) => {
+  if (user) {
+    userEmail.textContent = `Logged in as: ${user.email}`;
+    loginBtn.style.display = "none";
+    logoutBtn.style.display = "inline-block";
+  } else {
+    userEmail.textContent = "";
+    loginBtn.style.display = "inline-block";
+    logoutBtn.style.display = "none";
+  }
+});
+
 let transactions = JSON.parse(localStorage.getItem('mainTransactions')) || [];
 function calculateCredit(index) {
   const nested = transactions[index].nestedTransactions || [];
